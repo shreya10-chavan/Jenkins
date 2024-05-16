@@ -13,6 +13,11 @@ pipeline {
                 echo "Fetching the source code from the directory path: ${env.DIRECTORY_PATH} using Maven"
                 echo "Compiling the code and generating necessary artifacts"
             }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
+                }
+            }
         }
 
         stage('Unit and Integration Tests') {
@@ -60,9 +65,10 @@ pipeline {
                     // Send notification email for successful pipeline
                     emailext (
                         subject: "Pipeline Status: SUCCESS",
-                        body: "The Jenkins pipeline has completed successfully.",
+                        body: "The Jenkins pipeline has completed successfully. Build logs attached.",
                         to: "shreya10chavan@gmail.com",
-                        mimeType: 'text/html'
+                        mimeType: 'text/html',
+                        attachmentsPattern: 'target/*.jar'
                     )
                 }
             }

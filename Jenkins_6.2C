@@ -54,7 +54,7 @@ pipeline {
                 script {
                     echo "Running integration tests on the staging environment to ensure the application functions as expected in a production-like environment"
                     // Create a custom message file
-                    writeFile file: 'custom_message.txt', text: 'The Jenkins pipeline has completed successfully.'
+                    writeFile file: 'build.log', text: 'Build log contents...'
                 }
             }
             post {
@@ -69,6 +69,7 @@ pipeline {
                         to: "shreya10chavan@gmail.com",
                         mimeType: 'text/html',
                         attachmentsPattern: 'target/*.jar'
+                        attachmentsPattern: 'build.log' // Attach the build log file to the email
                     )
                 }
             }
